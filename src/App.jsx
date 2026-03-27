@@ -63,7 +63,7 @@ const App = () => {
   const now = new Date();
 
   // Hourly data
-  const currentIndex = weather ? weather.hourly.time.findIndex((t) => new Date(t) >= now) : "";
+  // const currentIndex = weather ? weather.hourly.time.findIndex((t) => new Date(t) >= now) : "";
   // const nextHours = weather?weather.hourly.time.slice(currentIndex, currentIndex + 8):'';
   // const nextTemps = weather?weather.hourly.temperature_2m.slice(currentIndex, currentIndex + 8):'';
   // const nextCodes = weather?weather.hourly.weather_code.slice(currentIndex, currentIndex + 8):'';
@@ -80,11 +80,20 @@ const App = () => {
     }));
   };
 
+  const getDailyData = () => {
+    if (!weather) return [];
+
+    return weather.daily.time.map((date, i) => ({
+      date,
+      max: weather.daily.temperature_2m_max[i],
+      min: weather.daily.temperature_2m_min[i],
+      code: weather.daily.weather_code[i],
+    }));
+  };
+
   console.log("weather", weather);
   console.log("airQuality", airQuality);
 
-
-  
   const getLocation = async () => {
     console.log(city);
     try {
@@ -159,7 +168,7 @@ const App = () => {
 
           {/* MAIN CARD */}
           <div className="currentWeather glass-box rounded-[18px] w-full relative">
-            <div className="absolute top-0 right-10 w-44 h-44 pointer-events-none bg-card-gradient" />
+            <div className="absolute top-0 right-10 w-60 h-60 pointer-events-none bg-card-gradient" />
             <div className="absolute sm:top-15 right-5 sm:text-7xl text-[12vw] top-25">
               {weather ? weatherCodeMap[weather.current.weather_code]?.emoji : "⏳"}
             </div>
@@ -184,7 +193,7 @@ const App = () => {
               <div className="section-sec">
                 <div className="temperature">
                   <h1 className="font-syne text-7xl temp-gradient flex items-start -mt-2 mb-2 leading-none font-extrabold">
-                    {weather ? Math.trunc(Number(weather.current?.apparent_temperature)) : "⌛"}{" "}
+                    {weather ? Math.trunc(Number(weather.current?.temperature_2m)) : "⌛"}{" "}
                     <span className="text-xl font-dmsans text-gray-400 font-light  leading-none mt-5">&deg;C</span>
                   </h1>
                   <p className="text-l text-gray-500">
@@ -196,7 +205,7 @@ const App = () => {
                 AQI {airQuality ? airQuality.hourly.us_aqi[0] : "⌛"} · Moderate
               </span>
               <p className="text-sm  italic text-gray-500">
-                Feels like <span>29&deg;C · High humidity expected post noon</span>
+                Feels like <span>{weather ? Math.trunc(Number(weather.current?.apparent_temperature)) : "⌛"}&deg;C · High humidity expected post noon</span>
               </p>
             </div>
             <div className="bottom-part flex justify-center gap-[4vmax] leading-none my-10">
@@ -210,7 +219,7 @@ const App = () => {
               <div className="flex flex-col items-center gap-2">
                 🌬️
                 <span className="font-syne text-xl font-bold text-green-400 leading-none">
-                  {weather ? Math.trunc(Number(weather.current.wind_speed_10m)) : "⌛"} km/h
+                  {weather ? Math.ceil(Number(weather.current.wind_speed_10m)) : "⌛"} km/h
                 </span>{" "}
                 <span className="uppercase text-xs text-gray-500 leading-none">WIND </span>
               </div>
@@ -225,9 +234,9 @@ const App = () => {
           </div>
 
           {/* HOURLY CARDS */}
-          <div className="hourly-forcast">
+          <div className="hourly-forcast w-full">
             <h1 className="uppercase text-gray-600 text-xs font-bold my-2">Hourly Forcast</h1>
-            <div className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar w-[calc(100vw-20vw)]">
+            <div className="flex gap-2 overflow-x-auto scroll-smooth no-scrollbar w-full">
               {getHourlyData().map((hour, index) => (
                 <div key={index} className="flex-shrink-0">
                   <HourlyForcastCard time={hour.time} temp={hour.temp} code={hour.code} />
@@ -238,14 +247,12 @@ const App = () => {
           </div>
 
           {/* DAILY CARDS */}
-          <div className="daily-forcast">
+          <div className="daily-forcast w-full">
             <h1 className="uppercase text-gray-600 text-xs font-bold my-2">7-Day forcast</h1>
-            <div className="flex flex-col p-3 gap-2 glass-box w-[calc(100vw-20vw)] rounded-[18px] ">
-              <DailyForcastBar />
-              <DailyForcastBar />
-              <DailyForcastBar />
-              <DailyForcastBar />
-              <DailyForcastBar />
+            <div className="flex flex-col p-3 gap-2 glass-box w-full rounded-[18px] ">
+              {getDailyData().map((day, index) => (
+                <DailyForcastBar key={index} date={day.date} index={index} max={day.max} min={day.min} code={day.code} />
+              ))}
             </div>
           </div>
         </section>

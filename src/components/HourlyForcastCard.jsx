@@ -46,7 +46,7 @@ const date = new Date(time);
 const hour = date.getHours();
 const formatted = hour % 12 || 12; // convert to 12-hour
 const ampm = hour >= 12 ? "PM" : "AM";
-const getEmoji = weatherCodeMap[code]?.emoji
+const getEmoji = weatherCodeMap[code]?.emoji || '🌥️'
   return (
     <div className="glass-box rounded-[16px] flex flex-col items-center w-18 py-4 flex-shrink-0">
       <p className="text-sm font-bold text-gray-600">{formatted}{ampm}</p>
