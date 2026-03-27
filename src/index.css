@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap");
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .font-dmsans {
+    font-family: "DM Sans", sans-serif;
+  }
+  .font-syne {
+    font-family: "Syne", sans-serif;
+  }
+
+  .glass-box {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .bg-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% -10%, rgba(108, 143, 255, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 110%, rgba(74, 240, 196, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 60% 50%, rgba(255, 159, 106, 0.07) 0%, transparent 60%);
+  }
+  .bg-card-gradient{
+    background:radial-gradient(circle,rgba(74,240,196,.12),transparent 70%)
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'></filter>...");
+    opacity: .6;
+  }
+  
+  .title-gradient{
+    background: linear-gradient(135deg, #4af0c4, #6c8fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
+  .temp-gradient{
+    background: linear-gradient(160deg, #fff 30%, rgba(255,255,255,.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    
+  }
+}
