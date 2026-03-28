@@ -60,7 +60,7 @@ const App = () => {
   });
   const [city, setCity] = useState("koppal");
   const inputRef = useRef(null);
-  const now = new Date();
+  // const now = new Date();
 
   // Hourly data
   // const currentIndex = weather ? weather.hourly.time.findIndex((t) => new Date(t) >= now) : "";
@@ -91,8 +91,8 @@ const App = () => {
     }));
   };
 
-  console.log("weather", weather);
-  console.log("airQuality", airQuality);
+  // console.log("weather", weather);
+  // console.log("airQuality", airQuality);
 
   const getLocation = async () => {
     console.log(city);
