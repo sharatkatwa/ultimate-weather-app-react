@@ -242,7 +242,6 @@ const App = () => {
                   <HourlyForcastCard time={hour.time} temp={hour.temp} code={hour.code} />
                 </div>
               ))}
-              <HourlyForcastCard />
             </div>
           </div>
 
